@@ -1,0 +1,32 @@
+#app {
+  .menu-bar {
+    margin-bottom: 1em;
+  }
+  .toggle-status {
+    background-color: #E85959; // red
+    &.active {
+      background-color: #18F018; // green
+    }
+  }
+  .annotation-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 2em;
+    background: white;
+    width: 30%;
+    box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.7);
+    .annotation-modal-close {
+      outline: none;
+      background: none;
+      border: none;
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+}

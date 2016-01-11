@@ -1,0 +1,46 @@
+{
+  "name": "annotator",
+  "version": "0.3.1",
+  "description": "Document annotation editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/webpack/bin/webpack.js",
+    "start": "node index.js",
+    "annotator": "npm run build && npm start"
+  },
+  "keywords": [
+    "annotation"
+  ],
+  "author": "Eric Andre",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericandre615/annotator.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.8.1",
+    "express": "^4.13.3",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-redux": "^4.0.6",
+    "redux": "^3.0.5",
+    "redux-thunk": "^1.0.3",
+    "xml2js": "^0.4.15"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "css-loader": "^0.23.1",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.10"
+  }
+}
