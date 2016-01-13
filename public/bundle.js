@@ -21670,20 +21670,20 @@
 	  },
 	  handleMarkerClick: function handleMarkerClick(e) {
 	    e.preventDefault();
+	    var doc = document.querySelector('.document');
 	    if (e.target.nodeName === 'MARK') {
 	      var annotation = this.props.annotations.filter(function (annotation) {
 	        if (e.target.dataset.id === annotation.id) {
 	          return annotation;
 	        }
 	      });
-
 	      if (annotation) {
+	        var top = e.target.offsetTop;
 	        this.setState({
 	          showModal: true,
 	          showAnnotation: {
 	            annotation: annotation[0],
-	            left: e.target.offsetLeft,
-	            top: e.target.offsetTop
+	            top: top
 	          }
 	        });
 	      }
@@ -21697,7 +21697,7 @@
 	      null,
 	      this.state.showModal ? _react2.default.createElement(
 	        'div',
-	        { className: 'annotation-modal', style: { top: this.state.showAnnotation.top, left: this.state.showAnnotation.left } },
+	        { className: 'annotation-modal col-xs-8 col-sm-6 col-md-4 col-lg-4', style: { top: this.state.showAnnotation.top, left: this.state.showAnnotation.left } },
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'annotation-modal-close', onClick: this.closeModal },
@@ -22048,7 +22048,7 @@
 
 
 	// module
-	exports.push([module.id, ".annotations {\n  list-style: none;\n}\n.annotations li {\n  border-bottom: 1px solid #D5D3D3;\n  margin-bottom: .75em;\n  padding-bottom: .75em;\n}\n.annotation span,\n.annotation select {\n  margin: 1em 0;\n}\n.annotation button {\n  margin: .5em 0 1em 0;\n}\n", ""]);
+	exports.push([module.id, ".annotations {\n  list-style: none;\n  height: 600px;\n  overflow-y: scroll;\n}\n.annotations li {\n  border-bottom: 1px solid #D5D3D3;\n  margin-bottom: .75em;\n  padding-bottom: .75em;\n}\n.annotation span,\n.annotation select {\n  margin: 1em 0;\n}\n.annotation button {\n  margin: .5em 0 1em 0;\n}\n", ""]);
 
 	// exports
 
@@ -23267,7 +23267,7 @@
 
 
 	// module
-	exports.push([module.id, "#app .menu-bar {\n  margin-bottom: 1em;\n}\n#app .toggle-status {\n  background-color: #E85959;\n}\n#app .toggle-status.active {\n  background-color: #18F018;\n}\n#app .annotation-modal {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n      -ms-transform: translateX(-50%);\n          transform: translateX(-50%);\n  z-index: 10;\n  padding: 2em;\n  background: white;\n  width: 30%;\n  -webkit-box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.7);\n          box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.7);\n}\n#app .annotation-modal .annotation-modal-close {\n  outline: none;\n  background: none;\n  border: none;\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 16px;\n  font-weight: bold;\n}\n", ""]);
+	exports.push([module.id, "#app .menu-bar {\n  margin-bottom: 1em;\n}\n#app .toggle-status {\n  background-color: #E85959;\n  cursor: initial;\n}\n#app .toggle-status.active {\n  background-color: #18F018;\n}\n#app .annotation-modal {\n  position: absolute;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n      -ms-transform: translateX(-50%);\n          transform: translateX(-50%);\n  z-index: 10;\n  padding: 2em;\n  background: white;\n  -webkit-box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.7);\n          box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.7);\n}\n#app .annotation-modal .annotation-modal-close {\n  outline: none;\n  background: none;\n  border: none;\n  position: absolute;\n  top: 4px;\n  right: 4px;\n  font-size: 16px;\n  font-weight: bold;\n}\n", ""]);
 
 	// exports
 

@@ -27,20 +27,20 @@ const Document = React.createClass({
 
   handleMarkerClick(e) {
     e.preventDefault();
+    var doc = document.querySelector('.document');
     if(e.target.nodeName === 'MARK') {
       let annotation = this.props.annotations.filter((annotation) => {
         if(e.target.dataset.id === annotation.id) {
           return annotation;
         }
       });
-
       if(annotation) {
+        let top = e.target.offsetTop;
         this.setState({
           showModal: true,
           showAnnotation: {
             annotation: annotation[0],
-            left: e.target.offsetLeft,
-            top: e.target.offsetTop
+            top
           }
         });
       }
@@ -52,7 +52,7 @@ const Document = React.createClass({
 
     return (
       <div>
-      { (this.state.showModal) ? <div className="annotation-modal" style={{top: this.state.showAnnotation.top, left: this.state.showAnnotation.left}}><button className="annotation-modal-close" onClick={this.closeModal}>x</button><Annotation annotation={ this.state.showAnnotation.annotation } /></div> : false }
+      { (this.state.showModal) ? <div className="annotation-modal col-xs-8 col-sm-6 col-md-4 col-lg-4" style={{top: this.state.showAnnotation.top, left: this.state.showAnnotation.left}}><button className="annotation-modal-close" onClick={this.closeModal}>x</button><Annotation annotation={ this.state.showAnnotation.annotation } /></div> : false }
       <pre className={`document col-xs-12 col-md-8 ${(this.props.highlights) ? 'highlights' : ''}`}
         dangerouslySetInnerHTML = {
           {
