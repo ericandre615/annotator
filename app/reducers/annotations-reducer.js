@@ -40,8 +40,10 @@ export const annotationsReducer = (state = intialState, action) => {
         }
 
         return Object.assign({}, annotation, {
-          category: action.category 
-        });
+          attr: {
+            category: action.category
+          }
+        }); 
       });
     default:
       return state;

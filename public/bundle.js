@@ -21021,7 +21021,9 @@
 	        }
 
 	        return Object.assign({}, annotation, {
-	          category: action.category
+	          attr: {
+	            category: action.category
+	          }
 	        });
 	      });
 	    default:
