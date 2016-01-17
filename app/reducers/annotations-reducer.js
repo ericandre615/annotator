@@ -1,4 +1,4 @@
-import { ADD_ANNOTATIONS, REMOVE_ANNOTATION, EDIT_ANNOTATION } from '../actions/action-types';
+import { ADD_ANNOTATIONS, REMOVE_ANNOTATION, EDIT_ANNOTATION, ADD_ANNOTATION } from '../actions/action-types';
 
 let intialState = [
   {
@@ -26,7 +26,7 @@ export const annotationsReducer = (state = intialState, action) => {
       action.annotations.forEach((annotation, i) => {
         newAnnotations.push(annotation);
       });
-      return newAnnotations;
+      return newAnnotations;  
     case REMOVE_ANNOTATION:
       return state.filter((annotation, i) => {
         if(annotation.id !== action.id) {
@@ -45,6 +45,8 @@ export const annotationsReducer = (state = intialState, action) => {
           }
         }); 
       });
+    case ADD_ANNOTATION:
+      return [...state, action.annotation];
     default:
       return state;
   }

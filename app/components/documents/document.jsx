@@ -1,5 +1,6 @@
 import React from 'react';
 import { highlightAnnotations } from '../../utils/highlighter';
+import { getCharseq } from '../../utils/get-charseq';
 import Annotation from '../annotations/annotation.jsx';
 
 import './document.less';
@@ -17,9 +18,19 @@ const Document = React.createClass({
     }
   },
 
+  handleSelection(e) {
+    if(e.target.nodeName !== 'MARK') {
+      let selectedText = window.getSelection().toString();
+      let parentText = document.querySelector('.document').innerText;
+
+      let newAnnotation = getCharseq(selectedText, parentText, this.props.doc_id);
+      return this.props.addAnnotation(newAnnotation);
+    }
+  },
+
   closeModal(e){
     e.preventDefault();
-    this.setState({
+    this.setState({ 
       showModal: false,
       showAnnotation: false
     });
@@ -42,7 +53,7 @@ const Document = React.createClass({
             annotation: annotation[0],
             top
           }
-        });
+        }); 
       }
     }
   },
@@ -60,6 +71,7 @@ const Document = React.createClass({
           }
         }
         onClick={ this.handleMarkerClick }
+        onMouseUp={ this.handleSelection }
       >
       </pre>
       </div>

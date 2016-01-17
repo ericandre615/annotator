@@ -64,9 +64,9 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _annotations = __webpack_require__(198);
+	var _annotations = __webpack_require__(199);
 
-	var _documents = __webpack_require__(216);
+	var _documents = __webpack_require__(217);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21026,6 +21026,8 @@
 	          }
 	        });
 	      });
+	    case _actionTypes.ADD_ANNOTATION:
+	      return [].concat(_toConsumableArray(state), [action.annotation]);
 	    default:
 	      return state;
 	  }
@@ -21096,21 +21098,21 @@
 
 	var _document2 = _interopRequireDefault(_document);
 
-	var _annotations = __webpack_require__(195);
+	var _annotations = __webpack_require__(196);
 
 	var _annotations2 = _interopRequireDefault(_annotations);
 
-	var _annotations3 = __webpack_require__(198);
+	var _annotations3 = __webpack_require__(199);
 
-	var _documents = __webpack_require__(216);
+	var _documents = __webpack_require__(217);
 
-	var _documentsActions = __webpack_require__(217);
+	var _documentsActions = __webpack_require__(218);
 
-	var _annotationsActions = __webpack_require__(192);
+	var _annotationsActions = __webpack_require__(193);
 
-	var _categoriesActions = __webpack_require__(218);
+	var _categoriesActions = __webpack_require__(219);
 
-	__webpack_require__(219);
+	__webpack_require__(220);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21191,8 +21193,10 @@
 	        ),
 	        _react2.default.createElement(_document2.default, {
 	          document: this.props.documents.text,
+	          doc_id: this.props.documents.id,
 	          annotations: this.props.annotations,
-	          highlights: this.props.documents.highlights
+	          highlights: this.props.documents.highlights,
+	          addAnnotation: this.props.addAnnotation
 	        }),
 	        _react2.default.createElement(_annotations2.default, { annotations: this.props.annotations })
 	      )
@@ -21231,6 +21235,9 @@
 	    }),
 	    addCategory: function addCategory(category) {
 	      return dispatch((0, _categoriesActions.addCategory)(category));
+	    },
+	    addAnnotation: function addAnnotation(annotation) {
+	      return dispatch((0, _annotationsActions.addAnnotation)(annotation));
 	    },
 	    toggleHighlights: function toggleHighlights() {
 	      return dispatch((0, _documentsActions.toggleHighlights)());
@@ -21641,11 +21648,13 @@
 
 	var _highlighter = __webpack_require__(190);
 
-	var _annotation = __webpack_require__(191);
+	var _getCharseq = __webpack_require__(191);
+
+	var _annotation = __webpack_require__(192);
 
 	var _annotation2 = _interopRequireDefault(_annotation);
 
-	__webpack_require__(193);
+	__webpack_require__(194);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21662,6 +21671,15 @@
 	      showModal: false,
 	      showAnnotation: false
 	    };
+	  },
+	  handleSelection: function handleSelection(e) {
+	    if (e.target.nodeName !== 'MARK') {
+	      var selectedText = window.getSelection().toString();
+	      var parentText = document.querySelector('.document').innerText;
+
+	      var newAnnotation = (0, _getCharseq.getCharseq)(selectedText, parentText, this.props.doc_id);
+	      return this.props.addAnnotation(newAnnotation);
+	    }
 	  },
 	  closeModal: function closeModal(e) {
 	    e.preventDefault();
@@ -21711,7 +21729,8 @@
 	        dangerouslySetInnerHTML: {
 	          __html: annotated
 	        },
-	        onClick: this.handleMarkerClick
+	        onClick: this.handleMarkerClick,
+	        onMouseUp: this.handleSelection
 	      })
 	    );
 	  }
@@ -21775,6 +21794,49 @@
 
 /***/ },
 /* 191 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.getCharseq = getCharseq;
+	function getCharseq() {
+	  var selected = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	  var text = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+	  var doc_id = arguments[2];
+
+	  var annotation = {};
+	  var START = text.indexOf(selected);
+	  var END = parseInt(START + selected.length - 1, 10);
+
+	  annotation = {
+	    id: doc_id + '-' + START,
+	    attr: {
+	      category: 'PERSON'
+	    },
+	    extent: {
+	      charseq: {
+	        attr: {
+	          END: END,
+	          START: START
+	        },
+	        text: selected
+	      }
+	    }
+	  };
+
+	  console.log('annotation ', annotation);
+	  return annotation;
+	};
+
+	exports.default = {
+	  getCharseq: getCharseq
+	};
+
+/***/ },
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21789,7 +21851,7 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _annotationsActions = __webpack_require__(192);
+	var _annotationsActions = __webpack_require__(193);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21863,7 +21925,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Annotation);
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21916,13 +21978,13 @@
 	};
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(194);
+	var content = __webpack_require__(195);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(188)(content, {});
@@ -21942,7 +22004,7 @@
 	}
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(187)();
@@ -21956,7 +22018,7 @@
 
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21971,13 +22033,13 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _annotation = __webpack_require__(191);
+	var _annotation = __webpack_require__(192);
 
 	var _annotation2 = _interopRequireDefault(_annotation);
 
-	var _annotationsActions = __webpack_require__(192);
+	var _annotationsActions = __webpack_require__(193);
 
-	__webpack_require__(196);
+	__webpack_require__(197);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22016,13 +22078,13 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps)(Annotations);
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(197);
+	var content = __webpack_require__(198);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(188)(content, {});
@@ -22042,7 +22104,7 @@
 	}
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(187)();
@@ -22056,7 +22118,7 @@
 
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22066,7 +22128,7 @@
 	});
 	exports.getAnnotations = undefined;
 
-	var _axios = __webpack_require__(199);
+	var _axios = __webpack_require__(200);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -22081,24 +22143,24 @@
 	};
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(200);
+	module.exports = __webpack_require__(201);
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(201);
-	var utils = __webpack_require__(202);
-	var dispatchRequest = __webpack_require__(203);
-	var InterceptorManager = __webpack_require__(211);
-	var isAbsoluteURL = __webpack_require__(212);
-	var combineURLs = __webpack_require__(213);
-	var bind = __webpack_require__(214);
+	var defaults = __webpack_require__(202);
+	var utils = __webpack_require__(203);
+	var dispatchRequest = __webpack_require__(204);
+	var InterceptorManager = __webpack_require__(212);
+	var isAbsoluteURL = __webpack_require__(213);
+	var combineURLs = __webpack_require__(214);
+	var bind = __webpack_require__(215);
 
 	function Axios(defaultConfig) {
 	  this.defaultConfig = utils.merge({
@@ -22166,7 +22228,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(215);
+	axios.spread = __webpack_require__(216);
 
 	// Expose interceptors
 	axios.interceptors = defaultInstance.interceptors;
@@ -22197,12 +22259,12 @@
 
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -22266,7 +22328,7 @@
 
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22512,7 +22574,7 @@
 
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22529,10 +22591,10 @@
 	    try {
 	      if ((typeof XMLHttpRequest !== 'undefined') || (typeof ActiveXObject !== 'undefined')) {
 	        // For browsers use XHR adapter
-	        __webpack_require__(204)(resolve, reject, config);
+	        __webpack_require__(205)(resolve, reject, config);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        __webpack_require__(204)(resolve, reject, config);
+	        __webpack_require__(205)(resolve, reject, config);
 	      }
 	    } catch (e) {
 	      reject(e);
@@ -22544,20 +22606,20 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	/*global ActiveXObject:true*/
 
-	var defaults = __webpack_require__(201);
-	var utils = __webpack_require__(202);
-	var buildURL = __webpack_require__(205);
-	var parseHeaders = __webpack_require__(206);
-	var transformData = __webpack_require__(207);
-	var isURLSameOrigin = __webpack_require__(208);
-	var btoa = window.btoa || __webpack_require__(209);
+	var defaults = __webpack_require__(202);
+	var utils = __webpack_require__(203);
+	var buildURL = __webpack_require__(206);
+	var parseHeaders = __webpack_require__(207);
+	var transformData = __webpack_require__(208);
+	var isURLSameOrigin = __webpack_require__(209);
+	var btoa = window.btoa || __webpack_require__(210);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  // Transform request data
@@ -22634,7 +22696,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(210);
+	    var cookies = __webpack_require__(211);
 
 	    // Add xsrf header
 	    var xsrfValue =  config.withCredentials || isURLSameOrigin(config.url) ?
@@ -22685,12 +22747,12 @@
 
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -22758,12 +22820,12 @@
 
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	/**
 	 * Parse headers into an object
@@ -22801,12 +22863,12 @@
 
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	/**
 	 * Transform the data for a request or a response
@@ -22827,12 +22889,12 @@
 
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -22901,7 +22963,7 @@
 
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22943,12 +23005,12 @@
 
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -23002,12 +23064,12 @@
 
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(202);
+	var utils = __webpack_require__(203);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -23060,7 +23122,7 @@
 
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23080,7 +23142,7 @@
 
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23098,7 +23160,7 @@
 
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23115,7 +23177,7 @@
 
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23148,7 +23210,7 @@
 
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23158,7 +23220,7 @@
 	});
 	exports.getDocument = undefined;
 
-	var _axios = __webpack_require__(199);
+	var _axios = __webpack_require__(200);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -23175,7 +23237,7 @@
 	};
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23209,7 +23271,7 @@
 	};
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23235,13 +23297,13 @@
 	};
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(220);
+	var content = __webpack_require__(221);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(188)(content, {});
@@ -23261,7 +23323,7 @@
 	}
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(187)();

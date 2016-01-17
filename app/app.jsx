@@ -6,7 +6,7 @@ import Annotations from './components/annotations/annotations.jsx';
 import { getAnnotations } from './api/annotations';
 import { getDocument } from './api/documents';
 import { addDocument, toggleHighlights } from './actions/documents-actions';
-import { addAnnotations, editAnnotations } from './actions/annotations-actions';
+import { addAnnotations, editAnnotations, addAnnotation } from './actions/annotations-actions';
 import { addCategory } from './actions/categories-actions';
 
 import './app.less';
@@ -80,8 +80,10 @@ const App = React.createClass({
 
           <Document
             document={ this.props.documents.text }
+            doc_id={ this.props.documents.id }
             annotations={ this.props.annotations }
             highlights={ this.props.documents.highlights  }
+            addAnnotation={ this.props.addAnnotation  }
           />
           <Annotations annotations={ this.props.annotations }/>
         </div>
@@ -104,6 +106,7 @@ const mapDispatchToProps = (dispatch) => {
     addAnnotations: (annotations) => dispatch(addAnnotations(annotations)),
     editAnnotation: (id, category) => dispatch(editAnnotation(id, category)),
     addCategory: (category) => dispatch(addCategory(category)),
+    addAnnotation: (annotation) => dispatch(addAnnotation(annotation)),
     toggleHighlights: () => dispatch(toggleHighlights())
   };
 };
