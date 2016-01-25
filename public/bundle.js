@@ -22112,7 +22112,7 @@
 
 
 	// module
-	exports.push([module.id, ".annotations {\n  list-style: none;\n  height: 600px;\n  overflow-y: scroll;\n}\n.annotations li {\n  border-bottom: 1px solid #D5D3D3;\n  margin-bottom: .75em;\n  padding-bottom: .75em;\n}\n.annotation span,\n.annotation select {\n  margin: 1em 0;\n}\n.annotation button {\n  margin: .5em 0 1em 0;\n}\n", ""]);
+	exports.push([module.id, ".annotations {\n  position: fixed;\n  right: 12px;\n  list-style: none;\n  height: 600px;\n  overflow-y: scroll;\n}\n.annotations li {\n  border-bottom: 1px solid #D5D3D3;\n  margin-bottom: .75em;\n  padding-bottom: .75em;\n}\n.annotation span,\n.annotation select {\n  margin: 1em 0;\n}\n.annotation button {\n  margin: .5em 0 1em 0;\n}\n@media screen and (max-width: 990px) {\n  .annotations {\n    position: initial;\n  }\n}\n", ""]);
 
 	// exports
 

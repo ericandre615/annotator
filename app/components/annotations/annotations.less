@@ -1,4 +1,6 @@
 .annotations {
+  position: fixed;
+  right: 12px;
   list-style: none;
   height: 600px;
   overflow-y: scroll;
@@ -15,5 +17,11 @@
   }
   button {
     margin: .5em 0 1em 0;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .annotations {
+    position: initial;
   }
 }

@@ -8,12 +8,12 @@ const Annotations = React.createClass({
   propTypes: {
     annotations: React.PropTypes.array.isRequired
   },
- 
+
   render() {
     let annotations = this.props.annotations.map((annotation, index) => {
       return (
         <li key={`annotation-${index}`}>
-          <Annotation key={ annotation.id } 
+          <Annotation key={ annotation.id }
             annotation={ annotation }
           />
         </li>
