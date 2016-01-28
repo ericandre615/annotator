@@ -21677,8 +21677,11 @@
 	      var selectedText = window.getSelection().toString();
 	      var parentText = document.querySelector('.document').innerText;
 
-	      var newAnnotation = (0, _getCharseq.getCharseq)(selectedText, parentText, this.props.doc_id);
-	      return this.props.addAnnotation(newAnnotation);
+	      if (selectedText.length > 0) {
+	        var newAnnotation = (0, _getCharseq.getCharseq)(selectedText, parentText, this.props.doc_id);
+
+	        return this.props.addAnnotation(newAnnotation);
+	      }
 	    }
 	  },
 	  closeModal: function closeModal(e) {

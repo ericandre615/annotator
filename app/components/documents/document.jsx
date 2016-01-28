@@ -23,14 +23,17 @@ const Document = React.createClass({
       let selectedText = window.getSelection().toString();
       let parentText = document.querySelector('.document').innerText;
 
-      let newAnnotation = getCharseq(selectedText, parentText, this.props.doc_id);
-      return this.props.addAnnotation(newAnnotation);
+      if(selectedText.length > 0) {
+        let newAnnotation = getCharseq(selectedText, parentText, this.props.doc_id);
+
+        return this.props.addAnnotation(newAnnotation);
+      }
     }
   },
 
   closeModal(e){
     e.preventDefault();
-    this.setState({ 
+    this.setState({
       showModal: false,
       showAnnotation: false
     });
@@ -53,7 +56,7 @@ const Document = React.createClass({
             annotation: annotation[0],
             top
           }
-        }); 
+        });
       }
     }
   },
